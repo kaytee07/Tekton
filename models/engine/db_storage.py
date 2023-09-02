@@ -6,10 +6,10 @@ from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
-from models.user import User
-from models.course import Course
-from models.cohort import Cohort
-from models.student import Student
+from models.users import User
+from models.courses import Course
+from models.cohorts import Cohort
+from models.students import Student
 
 
 classes = {'User': User, 'Course': Course, 'Cohort': Cohort, 'Student': Student}
