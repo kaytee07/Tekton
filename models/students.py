@@ -10,7 +10,8 @@ from os import getenv
 
 SD_TYPE_STORAGE = getenv('SD_TYPE_STORAGE')
 
-class User(BaseModel, Base):
+
+class Student(BaseModel, Base):
     """
     user class that describes the user
     """

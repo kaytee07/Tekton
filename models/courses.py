@@ -11,14 +11,14 @@ from os import getenv
 SD_TYPE_STORAGE = getenv('SD_TYPE_STORAGE')
 
 
-class User(BaseModel, Base):
+class Course(BaseModel, Base):
     """
     user class that describes the user
     """
     __tablename__ = 'courses'
 
     if SD_TYPE_STORAGE == 'db':
-        course_name = Column(String(128), nullable=False)
+        name = Column(String(128), nullable=False)
         no_of_students = Column(Integer, nullable=False)
         students = relationship('Student', backref="course")
     else:
