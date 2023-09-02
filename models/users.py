@@ -8,7 +8,8 @@ from sqlalchemy.types import LargeBinary
 from sqlalchemy.orm import relationship
 from os import getenv
 
-SD_TYPE_STORAGE = getenv('SD_TYPE_STORAGE')
+TK_TYPE_STORAGE = getenv('TK_TYPE_STORAGE')
+
 
 class User(BaseModel, Base):
     """
@@ -16,7 +17,7 @@ class User(BaseModel, Base):
     """
     __tablename__ = 'users'
 
-    if SD_TYPE_STORAGE == 'db':
+    if TK_TYPE_STORAGE == 'db':
         first_name = Column(String(128), nullable=False)
         last_name = Column(String(128), nullable=False)
         username = Column(String(60), nullable=False)
