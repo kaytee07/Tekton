@@ -24,7 +24,7 @@ class User(BaseModel, Base):
         user_type = Column(String(60))
         email = Column(String(60), nullable=False)
         password = Column(String(140), nullable=False)
-        phone_no = Column(Integer)
+        phone_no = Column(String(60), nullable=False)
         salt = Column(LargeBinary)
     else:
         first_name = None
