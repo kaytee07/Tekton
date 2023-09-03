@@ -81,8 +81,20 @@ def login():
 
         if user:
             if hash_password(data['password'], user_dict['salt']) == user_dict['password']:
+                session['user_id'] = user_dict['id']
                 return jsonify({"login": "successfully"}), 200
             else:
                 abort(404, description="incorrect username and password")
         else:
             abort(404, description="incorrect username and password")
+    else:
+        return jsonify({"login": "page"})
+
+
+@app_views.route('/logout', strict_slashes=False, methods=['POST'])
+def logout():
+    """
+    user logout
+    """
+    session.clear()
+    return jsonify({"status": "loggedout"})
