@@ -27,7 +27,7 @@ class BaseModel:
         """
         if kwargs:
             for key, value in kwargs.items():
-                if key == '__class__':
+                if key == '__class__' or key == 'cohort_no':
                     pass
                 elif key == 'created_at' or key == 'updated_at' or key == 'start_date' or key == 'stop_date':
                     date_obj = datetime.strptime(value, time_fmt)
