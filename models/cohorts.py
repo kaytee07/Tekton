@@ -20,9 +20,10 @@ class Cohort(BaseModel, Base):
     __tablename__ = 'cohorts'
 
     if TK_TYPE_STORAGE == 'db':
-        cohort_no = Column(Integer, nullable=False, autoincrement=True)
-        start_date = Column(DateTime, nullable=False)
-        end_date = Column(DateTime, nullable=False)
+        cohort_no = Column(Integer, autoincrement=True)
+        start_date = Column(DateTime)
+        end_date = Column(DateTime)
+        no_of_students = Column(Integer)
         students = relationship('Student', backref='cohort')
     else:
         cohort_no = None
