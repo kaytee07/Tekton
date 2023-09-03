@@ -8,7 +8,7 @@ from sqlalchemy.types import LargeBinary
 from sqlalchemy.orm import relationship
 from os import getenv
 
-SD_TYPE_STORAGE = getenv('SD_TYPE_STORAGE')
+TK_TYPE_STORAGE = getenv('TK_TYPE_STORAGE')
 
 
 class Course(BaseModel, Base):
@@ -17,7 +17,7 @@ class Course(BaseModel, Base):
     """
     __tablename__ = 'courses'
 
-    if SD_TYPE_STORAGE == 'db':
+    if TK_TYPE_STORAGE == 'db':
         name = Column(String(128), nullable=False)
         no_of_students = Column(Integer, nullable=False)
         students = relationship('Student', backref="course")

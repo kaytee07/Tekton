@@ -10,7 +10,7 @@ from datetime import datetime
 from sqlalchemy.orm import relationship
 from os import getenv
 
-SD_TYPE_STORAGE = getenv('SD_TYPE_STORAGE')
+TK_TYPE_STORAGE = getenv('TK_TYPE_STORAGE')
 
 
 class Cohort(BaseModel, Base):
@@ -19,7 +19,7 @@ class Cohort(BaseModel, Base):
     """
     __tablename__ = 'cohorts'
 
-    if SD_TYPE_STORAGE == 'db':
+    if TK_TYPE_STORAGE == 'db':
         cohort_no = Column(Integer, nullable=False, autoincrement=True)
         start_date = Column(DateTime, nullable=False)
         end_date = Column(DateTime, nullable=False)
@@ -36,8 +36,8 @@ class Cohort(BaseModel, Base):
         """
         super().__init__(*args, **kwargs)
 
-    def start_date():
-        start_date = datetime.utcnow()
+    def start_date(self):
+        self.start_date = datetime.utcnow()
 
-    def end_date():
-        end_date = datetime.utcnow()
+    def end_date(self):
+        self.end_date = datetime.utcnow()
