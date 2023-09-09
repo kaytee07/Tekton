@@ -1,0 +1,60 @@
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+div.course_cohort {
+    display: flex;
+    margin-right: 30px;
+}
+
+div.student_details  {
+    font-family: 'Roboto', sans-serif;
+     display: flex;
+     justify-content: space-around;
+     border-bottom: 1px solid #f4f4f4;
+ }
+
+ div.graduated  {
+     display: flex;
+     align-items: center;
+ }
+
+ button {
+    color: white;
+    background-color: #3b37ff;
+    border: none;
+    height: 40px;
+    width: 163px;
+    border-radius: 5px;
+    margin: 10px 0px;
+ }
+
+ div.logo h4 {
+    font-family: 'Stardos Stencil', cursive;
+ }
+
+ select#course {
+    border: 1px solid #3b37ff;
+    height: 40px;
+    width: 163px;
+    border-radius: 3px;
+ }
+
+ select#cohort {
+    border: 1px solid #3b37ff;
+    height: 40px;
+    width: 163px;
+    border-radius: 3px;
+    margin-right: 15px;
+ }
+
+ div.student_details.head {
+    border: 1px solid #f4f4f4;
+    height: 52px;
+    margin-top: 30px;
+ }
+
+ div.student_details h4 {
+    margin: 14px;
+ }
