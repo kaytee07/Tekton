@@ -3,7 +3,7 @@
 all user apis including login and logout page
 """
 
-from flask import abort, render_template, request, jsonify, session
+from flask import abort, render_template, request, jsonify, session, redirect, url_for, flash
 from api.v1.views import app_views
 from models import storage
 from models.users import User
@@ -48,15 +48,14 @@ def createuser():
         if 'phone_no' not in data:
             abort(404, description="No phone_no")
 
-        hashed_data = hash_password(data['password'])
-        data['password'] = hashed_data['passwd']
-        data['salt'] = hashed_data['salt']
-        print(data)
+        hashed_pass = hash_password(data['password'])
+        data['password'] = hashed_pass['passwd']
+        data['salt'] = hashed_pass['salt']
         new_user = User(**data)
         new_user.save()
-        return jsonify(new_user.to_dict())
+        return redirect(url_for('appviews.login'))
     else:
-        return jsonify({"return": "success"})
+        return render_template('signin.html')
 
 
 @app_views.route('/login', strict_slashes=False, methods=['GET', 'POST'])
@@ -82,13 +81,27 @@ def login():
         if user:
             if hash_password(data['password'], user_dict['salt']) == user_dict['password']:
                 session['user_id'] = user_dict['id']
-                return jsonify({"login": "successfully"}), 200
+                return redirect(url_for('appviews.home'))
             else:
                 abort(404, description="incorrect username and password")
         else:
             abort(404, description="incorrect username and password")
     else:
-        return jsonify({"login": "page"})
+        return render_template('login.html')
+
+
+@app_views.route('/home', strict_slashes=False, methods=['GET'])
+def home():
+    """
+    home of user'
+    """
+    if 'user_id' in session:
+        id = session.get('user_id')
+        username = session.get('username')
+        return render_template('home.html', id=id, username=username)
+    else:
+        flash('You need to log in to access this page.', 'danger')
+        return redirect(url_for('appviews.login'))
 
 
 @app_views.route('/logout', strict_slashes=False, methods=['POST'])
@@ -97,4 +110,4 @@ def logout():
     user logout
     """
     session.clear()
-    return jsonify({"status": "loggedout"})
+    return redirect(url_for('appviews.login'))
