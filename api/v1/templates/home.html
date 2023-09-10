@@ -1,11 +1,4 @@
-<option value="catering">Catering</option>
-<option value="it">IT</option>
-<option value="dressmaking">Dressmaking</option>
-</select>
-</div>
-
-</div>
-        <div class="<!DOCTYPE html">
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,7 +12,9 @@
             <h4>Tekton</h4>
         </div>
         <div class="logout_btn">
+	  <form action="{{ url_for('appviews.logout') }}" method="post">
             <button>logout</button>
+	  </form> 
         </div>
     </header>
     <section class="main">
@@ -31,7 +26,14 @@
             </div>
             <div class="course">
                 <select id="course" name="course">
-        students">
+                    <option value="catering">Catering</option>
+                    <option value="it">IT</option>
+                    <option value="dressmaking">Dressmaking</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="students">
             <div class="std_headers">
                 <div class="student_details head">
                     <h4 class="name">Name</h4>
