@@ -22,7 +22,7 @@ class Student(BaseModel, Base):
         last_name = Column(String(128), nullable=False)
         course_id = Column(String(128), ForeignKey('courses.id'))
         cohort_id = Column(String(128), ForeignKey('cohorts.id'))
-        Phone_no = Column(Integer, nullable=False)
+        phone_no = Column(String(120), nullable=False)
         age = Column(Integer, nullable=False)
         email = Column(String(60), nullable=False)
     else:
