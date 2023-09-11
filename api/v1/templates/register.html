@@ -16,9 +16,7 @@
                 Tekton Institute
             </h2>
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt, deleniti? Nostrum, sint aliquid!
-                Ratione cumque sed quos, soluta animi libero quaerat, accusantium molestiae perferendis, mollitia ex
-                aliquam iste eligendi voluptatibus.
+                
             </p>
         </article>
     </aside>
@@ -27,22 +25,22 @@
             <h2>
                 Register
             </h2>
-            <form>
+            <form action="{{ url_for('appviews.createstudent') }}" method="POST">
                 <label for="firstname">first name</label><br>
-                <input type="text" id="firstname" name="firstname"><br>
+                <input type="text" id="first_name" name="first_name"><br>
                 <label for="lastname">last name</label><br>
-                <input type="text" id="lastname" name="lastname"><br>
+                <input type="text" id="last_name" name="last_name"><br>
                 <label for="age">age</label><br>
                 <input type="number" id="age" name="age"><br>
                 <label for="email">email</label><br>
                 <input type="email" id="email" name="email"><br>
                 <label for="phone-number">phone no:</label><br>
-                <input type="text" id="phone-number" name="phone-number"><br>
+                <input type="text" id="phone-number" name="phone_no"><br>
                 <label for="course">course</label><br>
-                <select id="course" name="course">
-                    <option value="catering">Catering</option>
-                    <option value="it">IT</option>
-                    <option value="dressmaking">Dressmaking</option>
+                <select id="course" name="course_name">
+                    <option>Catering</option>
+                    <option>IT</option>
+                    <option>Dressmaking</option>
                 </select>
                 <button>Register</button>
             </form>
