@@ -5,7 +5,6 @@ header {
 
 div.course_cohort {
     display: flex;
-    margin-right: 30px;
 }
 
 div.student_details  {
@@ -39,6 +38,7 @@ div.student_details  {
     height: 40px;
     width: 163px;
     border-radius: 3px;
+    margin-right: 10px;
  }
 
  select#cohort {
@@ -57,4 +57,18 @@ div.student_details  {
 
  div.student_details h4 {
     margin: 14px;
+ }
+
+ form.course_cohort button{
+    margin: 0px;
+ }
+
+ form.course_cohort {
+    display: flex;
+ }
+
+ div.logout_btn {
+    display: flex;
+    justify-content: space-evenly;
+    width: 420px;
  }
