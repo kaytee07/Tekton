@@ -3,7 +3,7 @@
 all user apis including login and logout page
 """
 
-from flask import abort, render_template, request, jsonify, session
+from flask import abort, render_template, request, jsonify, session, redirect, url_for
 from api.v1.views import app_views
 from models import storage
 from models.courses import Course
@@ -15,22 +15,26 @@ def createcourse():
     create user who can check registered kids
     """
     if request.method == 'POST':
-        data = request.get_json()
-        if not data:
-            abort(404, description="absolutely no data")
+        if 'user_id' in session:
+            new_data = request.form
+            if not new_data:
+                abort(404, description="absolutely no data")
 
-        if 'name' not in data:
-            abort(404, description="No name passed")
+            if 'name' not in new_data:
+                abort(404, description="No name passed")
 
-        if 'no_of_students' not in data:
-            abort(404, description="No no_of student")
+            if 'no_of_students' not in new_data:
+                abort(404, description="No no_of student")
 
-        print(data)
-        new_course = Course(**data)
-        new_course.save()
-        return jsonify(new_course.to_dict())
+            data = new_data.to_dict()
+            new_course = Course(**data)
+            new_course.save()
+            return jsonify(new_course.to_dict())
     else:
-        return jsonify({"return": "success"})
+        if 'user_id' in session:
+            return render_template('course.html')
+        else:
+            redirect(url_for('appviews.login'))
 
 
 @app_views.route('/allcourses', strict_slashes=False , methods=['GET'])

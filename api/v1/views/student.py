@@ -17,27 +17,28 @@ def createstudent():
     create a new cohort
     """
     if request.method == 'POST':
-        data = request.get_json()
-        if not data:
+        new_data = request.form
+        if not new_data:
             abort(404, description="absolutely no data")
 
-        if 'first_name' not in data:
+        if 'first_name' not in new_data:
             abort(404, description="no first_name")
 
-        if 'last_name' not in data:
+        if 'last_name' not in new_data:
             abort(404, description="no last_name")
 
-        if 'age' not in data:
+        if 'age' not in new_data:
             abort(404, description="no age")
 
-        if 'Phone_no' not in data:
-            abort(404, description="No no_of student")
-
+        if 'phone_no' not in new_data:
+            abort(404, description="No phone_no")
+        data = new_data.to_dict()
         course = storage.get(Course, coursename=data['course_name'])
-        cohort = storage.get(Cohort, cohort_no=data['cohort_no'])
+        cohort = storage.get(Cohort, cohort_no=1)
+        print(data)
         if course and cohort:
-            course_dict = storage.get(Course, coursename=data['course_name']).to_dict()
-            cohort_dict = storage.get(Cohort, cohort_no=data['cohort_no']).to_dict()
+            course_dict = course.to_dict()
+            cohort_dict = cohort.to_dict()
             data['course_id'] = course_dict['id']
             data['cohort_id'] = cohort_dict['id']
             new_student = Student(**data)
@@ -48,16 +49,24 @@ def createstudent():
             cohort.save()
             return jsonify(new_student.to_dict())
     else:
-        return jsonify({"return": "success"})
+        return render_template('register.html')
 
 
-@app_views.route('/allstudents', strict_slashes=False , methods=['POST'])
-def get_all_student():
+@app_views.route('/students/<cohort_no>/<course_name>', strict_slashes=False , methods=['POST'])
+def get_all_student(cohort_no, course_name):
     """
     get all student
     """
+    course_dict = storage.get(Course, coursename=course_name).to_dict()
+    cohort_dict = storage.get(Cohort, cohort_no=int(cohort_no)).to_dict()
+    course_id = course_dict['id']
+    cohort_id = cohort_dict['id']
     all_students = storage.all('Student')
     student_list = []
+    student_course_cohort = []
     for value in all_students.values():
         student_list.append(value.to_dict())
-    return jsonify(student_list), 200
+    for value in student_list:
+        if value['course_id'] == course_id and value['cohort_id'] == cohort_id:
+            student_course_cohort.append(value)
+    return jsonify(student_course_cohort)
