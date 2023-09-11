@@ -17,10 +17,12 @@ def createcourse():
     if request.method == 'POST':
         if 'user_id' in session:
             new_data = request.form
+            print(new_data)
             if not new_data:
                 abort(404, description="absolutely no data")
 
             if 'name' not in new_data:
+                print('prob')
                 abort(404, description="No name passed")
 
             if 'no_of_students' not in new_data:
@@ -29,7 +31,7 @@ def createcourse():
             data = new_data.to_dict()
             new_course = Course(**data)
             new_course.save()
-            return jsonify(new_course.to_dict())
+            return render_template('course.html' results="success")
     else:
         if 'user_id' in session:
             return render_template('course.html')
@@ -37,7 +39,7 @@ def createcourse():
             redirect(url_for('appviews.login'))
 
 
-@app_views.route('/allcourses', strict_slashes=False , methods=['GET'])
+@app_views.route('/allcourses', strict_slashes=False, methods=['GET'])
 def get_all_courses():
     """
     get all courses
