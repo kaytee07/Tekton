@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/cohort_course.css') }}">
+    <title>Tekton</title>
+</head>
+
+<body>
+    <aside class="side">
+        <header>
+            <h4>Tekton</h4>
+            <form action="http://localhost:5001/api/v1/logout">
+                <button>logout</button>
+            </form>
+        </header>
+        <article>
+            <h2>
+                Tekton Institute
+            </h2>
+            <p>
+            </p>
+        </article>
+    </aside>
+    <section>
+        <article>
+            <h2>
+                Create cohort
+            </h2>
+            <form>
+                <label for="cohort_no">cohort no</label><br>
+                <input type="number" id="cohort_no" name="cohort_no"><br>
+                <label for="start_date">start date</label><br>
+                <input type="date" id="start_date" name="start_date"><br>
+                <label for="end_date">end date</label><br>
+                <input type="date" id="end_date" name="end_date"><br>
+                <button>Create</button>
+            </form>
+        </article>
+    </section>
+</body>
+
+</html>
