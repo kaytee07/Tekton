@@ -27,9 +27,9 @@ class BaseModel:
         """
         if kwargs:
             for key, value in kwargs.items():
-                if key == '__class__' or key == 'cohort_no':
+                if key == '__class__':
                     pass
-                elif key == 'created_at' or key == 'updated_at' or key == 'start_date' or key == 'stop_date':
+                elif key == 'created_at' or key == 'updated_at':
                     date_obj = datetime.strptime(value, time_fmt)
                     setattr(self, key, date_obj)
                 else:
