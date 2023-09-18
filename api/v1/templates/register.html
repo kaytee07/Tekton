@@ -25,17 +25,27 @@
             <h2>
                 Register
             </h2>
+	    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+        {% endif %}
+    {% endwith %}
             <form action="{{ url_for('appviews.createstudent') }}" method="POST">
                 <label for="firstname">first name</label><br>
-                <input type="text" id="first_name" name="first_name"><br>
+                <input type="text" id="first_name" name="first_name" required><br>
                 <label for="lastname">last name</label><br>
-                <input type="text" id="last_name" name="last_name"><br>
+                <input type="text" id="last_name" name="last_name" required><br>
                 <label for="age">age</label><br>
-                <input type="number" id="age" name="age"><br>
+                <input type="number" id="age" name="age" required><br>
                 <label for="email">email</label><br>
-                <input type="email" id="email" name="email"><br>
+                <input type="email" id="email" name="email" required><br>
                 <label for="phone-number">phone no:</label><br>
-                <input type="text" id="phone-number" name="phone_no"><br>
+                <input type="text" id="phone-number" name="phone_no" required><br>
                 <label for="course">course</label><br>
                 <select id="course" name="course_name">
                     <option>Catering</option>

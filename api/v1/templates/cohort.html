@@ -13,7 +13,7 @@
         <header>
             <h4>Tekton</h4>
             <div>
-                <button><a href="{{ url_for('appviews.logout') }}">logout</a></button>
+                <button><a href="{{ url_for('appviews.home') }}">Home</a></button>
             </div>
         </header>
         <article>
@@ -29,6 +29,16 @@
             <h2>
                 Create cohort
             </h2>
+	    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+        {% endif %}
+    {% endwith %}
             <form action=" {{ url_for('appviews.createcohort') }} " method="POST">
                 <label for="cohort_no">cohort no</label><br>
                 <input type="number" id="cohort_no" name="cohort_no"><br>
