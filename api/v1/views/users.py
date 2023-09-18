@@ -64,28 +64,25 @@ def login():
     login as user online
     """
     if request.method == 'POST':
-        data = request.get_json()
+        data = request.form
 
         if not data:
             abort(404, description="absolutely no data")
 
-        if 'password' not in data:
-            abort(404, description="No password")
-
-        if 'username' not in data:
-            abort(404, description="No username")
-
-        user = storage.get(User, username=data['username'])
-        user_dict = user.to_dict()
+        user = storage.get(User, username=data['user'])
 
         if user:
-            if hash_password(data['password'], user_dict['salt']) == user_dict['password']:
+            user_dict = user.to_dict()
+            if hash_password(data['pass'], user_dict['salt']) == user_dict['password']:
                 session['user_id'] = user_dict['id']
+                session['username'] = user_dict['username']
                 return redirect(url_for('appviews.home'))
             else:
-                abort(404, description="incorrect username and password")
+                flash('incorrect username and password')
+                return render_template('login.html')
         else:
-            abort(404, description="incorrect username and password")
+            flash('user cannot be found')
+            return render_template('login.html')
     else:
         return render_template('login.html')
 

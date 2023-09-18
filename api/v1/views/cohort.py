@@ -3,7 +3,7 @@
 all user apis including login and logout page
 """
 
-from flask import abort, render_template, request, jsonify, session, redirect, url_for
+from flask import abort, render_template, request, jsonify, session, redirect, url_for, flash
 from api.v1.views import app_views
 from models import storage
 from models.cohorts import Cohort
@@ -16,20 +16,21 @@ def createcohort():
     """
     if request.method == 'POST':
         if 'user_id' in session:
-            new_data = request.get_json()
+            new_data = request.form
             if not new_data:
                 abort(404, description="absolutely no data")
-            if 'no_of_students' not in new_data:
-                abort(404, description="No no_of student")
 
             data = new_data.to_dict()
+            data['no_of_students'] = 0
             new_cohort = Cohort(**data)
             new_cohort.save()
-            return jsonify(new_cohort.to_dict())
+            flash('cohort successfully created')
+            return render_template('cohort.html', result="success")
     else:
         if 'user_id' in session:
             return render_template('cohort.html')
         else:
+            flash('login to get access')
             redirect(url_for('appviews.login'))
 
 

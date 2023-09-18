@@ -3,7 +3,7 @@
 all user apis including login and logout page
 """
 
-from flask import abort, render_template, request, jsonify, session, redirect, url_for
+from flask import abort, render_template, request, jsonify, session, redirect, url_for, flash
 from api.v1.views import app_views
 from models import storage
 from models.courses import Course
@@ -31,11 +31,13 @@ def createcourse():
             data = new_data.to_dict()
             new_course = Course(**data)
             new_course.save()
-            return render_template('course.html' results="success")
+            flash('course sucessfully created')
+            return render_template('course.html', results="success")
     else:
         if 'user_id' in session:
             return render_template('course.html')
         else:
+            flash('login to get access')
             redirect(url_for('appviews.login'))
 
 
