@@ -116,10 +116,12 @@ def updateuser(id):
             get_user.email = data['email']
 
         get_user.save()
-        return jsonify(get_user.to_dict())
+        flash('user updated successfully')
+        return redirect(url_for('appviews.user'))
+        return 
     else:
         flash('failed to update user')
-        abort(404)
+        return redirect(url_for('appviews.user'))
 
 
 @app_views.route('/deleteuser/<id>', strict_slashes=False, methods=['POST'])
@@ -132,10 +134,24 @@ def deleteuser(id):
         get_user.delete()
         storage.save()
         flash("deleted successfully")
-        return jsonify(all_users()), 200
+        return redirect(url_for('appviews.user'))
     else:
         flash('failed to delete user')
-        abort(404)
+        return redirect(url_for('appviews.user'))
+
+
+@app_views.route('/users', strict_slashes=False, methods=['GET'])
+def user():
+    """
+    all users screen
+    """
+    if 'user_id' in session:
+        id = session.get('user_id')
+        username = session.get('username')
+        return render_template('user.html', id=id, username=username, users=all_users())
+    else:
+        flash('You need to log in to access this page.', 'danger')
+        return redirect(url_for('appviews.login'))
 
 
 @app_views.route('/home', strict_slashes=False, methods=['GET'])
