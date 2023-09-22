@@ -72,3 +72,8 @@ div.student_details  {
     justify-content: space-evenly;
     width: 420px;
  }
+
+a {
+    text-decoration: none;
+    color: black;
+}
