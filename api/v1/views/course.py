@@ -54,10 +54,14 @@ def updatecourse(id):
     """
     update course
     """
-    get_course = storage.get(Course, id=id)
-    data = request.get_json()
-    get_course.name = data['name']
-    return jsonify(get_course.to_dict())
+    if get_course:
+        get_course = storage.get(Course, id=id)
+        data = request.get_json()
+        get_course.name = data['name']
+        return jsonify(get_course.to_dict())
+    else:
+        flash('update course failed, try again!')
+        abort(404)
 
 
 @app_views.route('/deletecourse/<id>', strict_slashes=False, methods=['POST'])
@@ -66,9 +70,14 @@ def deletecourse(id):
     delete course
     """
     get_course = storage.get(Course, id=id)
-    print(get_course.delete())
-    flash("deleted successfully")
-    return jsonify(all_courses()), 200
+    if get_course:
+        print(get_course.delete())
+        storage.save()
+        flash("deleted successfully")
+        return jsonify(all_courses()), 200
+    else:
+        flash('delete course failed, try again!')
+        abort(404)
 
 
 @app_views.route('/allcourses', strict_slashes=False, methods=['GET'])

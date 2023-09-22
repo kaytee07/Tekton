@@ -27,6 +27,7 @@ def hash_password(password, salt=None):
         hashed_password = binascii.hexlify(hk).decode('utf-8')
         return hashed_password
 
+
 def all_users():
     all_users = storage.all('User')
     cohort_list = []
@@ -93,12 +94,14 @@ def login():
     else:
         return render_template('login.html')
 
+
 @app_views.route('/updateuser/<id>', strict_slashes=False, methods=['POST'])
 def updateuser(id):
     """
     update user
     """
     get_user = storage.get(User, id=id)
+    print(get_user.to_dict())
     if get_user:
         data = request.get_json()
         if 'first_name' in data:
@@ -115,6 +118,7 @@ def updateuser(id):
         get_user.save()
         return jsonify(get_user.to_dict())
     else:
+        flash('failed to update user')
         abort(404)
 
 
@@ -130,6 +134,7 @@ def deleteuser(id):
         flash("deleted successfully")
         return jsonify(all_users()), 200
     else:
+        flash('failed to delete user')
         abort(404)
 
 

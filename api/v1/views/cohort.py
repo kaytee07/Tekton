@@ -45,24 +45,33 @@ def createcohort():
 @app_views.route('/updatecohort/<id>', strict_slashes=False, methods=['POST'])
 def updatecohort(id):
     """
-    update course
+    update cohort
     """
     get_cohort = storage.get(Cohort, id=id)
-    data = request.get_json()
-    get_cohort.cohort_no = data['cohort_no']
-    get_cohort.save()
-    return jsonify(get_cohort.to_dict())
+    if get_cohort:
+        data = request.get_json()
+        get_cohort.cohort_no = data['cohort_no']
+        get_cohort.save()
+        return jsonify(get_cohort.to_dict())
+    else:
+        flash("failed to update, try again!")
+        abort(404)
 
 
 @app_views.route('/deletecohort/<id>', strict_slashes=False, methods=['POST'])
 def deletecohort(id):
     """
-    delete course
+    delete cohort
     """
     get_cohort = storage.get(Cohort, id=id)
-    print(get_cohort.delete())
-    flash("deleted successfully")
-    return jsonify(all_cohorts()), 200
+    if get_cohort:
+        get_cohort.delete()
+        storage.save()
+        flash("deleted successfully")
+        return jsonify(all_cohorts()), 200
+    else:
+        flash("failed to delete, try again!")
+        abort(404)
 
 
 @app_views.route('/allcohorts', strict_slashes=False, methods=['POST'])
