@@ -9,6 +9,14 @@ from models import storage
 from models.cohorts import Cohort
 
 
+def all_cohorts():
+    all_cohorts = storage.all('Cohort')
+    cohort_list = []
+    for value in all_cohorts.values():
+        cohort_list.append(value.to_dict())
+    return cohort_list
+
+
 @app_views.route('/createcohort', strict_slashes=False, methods=['GET', 'POST'])
 def createcohort():
     """
@@ -34,13 +42,32 @@ def createcohort():
             redirect(url_for('appviews.login'))
 
 
+@app_views.route('/updatecohort/<id>', strict_slashes=False, methods=['POST'])
+def updatecohort(id):
+    """
+    update course
+    """
+    get_cohort = storage.get(Cohort, id=id)
+    data = request.get_json()
+    get_cohort.cohort_no = data['cohort_no']
+    get_cohort.save()
+    return jsonify(get_cohort.to_dict())
+
+
+@app_views.route('/deletecohort/<id>', strict_slashes=False, methods=['POST'])
+def deletecohort(id):
+    """
+    delete course
+    """
+    get_cohort = storage.get(Cohort, id=id)
+    print(get_cohort.delete())
+    flash("deleted successfully")
+    return jsonify(all_cohorts()), 200
+
+
 @app_views.route('/allcohorts', strict_slashes=False, methods=['POST'])
 def get_all_cohort():
     """
     get all courses
     """
-    all_cohorts = storage.all('Cohort')
-    cohort_list = []
-    for value in all_cohorts.values():
-        cohort_list.append(value.to_dict())
-    return jsonify(cohort_list), 200
+    return jsonify(all_cohorts()), 200

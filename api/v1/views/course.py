@@ -9,6 +9,14 @@ from models import storage
 from models.courses import Course
 
 
+def all_courses():
+    all_courses = storage.all('Course')
+    course_list = []
+    for value in all_courses.values():
+        course_list.append(value.to_dict())
+    return course_list
+
+
 @app_views.route('/createcourse', strict_slashes=False, methods=['GET', 'POST'])
 def createcourse():
     """
@@ -41,13 +49,31 @@ def createcourse():
             redirect(url_for('appviews.login'))
 
 
+@app_views.route('/updatecourse/<id>', strict_slashes=False, methods=['POST'])
+def updatecourse(id):
+    """
+    update course
+    """
+    get_course = storage.get(Course, id=id)
+    data = request.get_json()
+    get_course.name = data['name']
+    return jsonify(get_course.to_dict())
+
+
+@app_views.route('/deletecourse/<id>', strict_slashes=False, methods=['POST'])
+def deletecourse(id):
+    """
+    delete course
+    """
+    get_course = storage.get(Course, id=id)
+    print(get_course.delete())
+    flash("deleted successfully")
+    return jsonify(all_courses()), 200
+
+
 @app_views.route('/allcourses', strict_slashes=False, methods=['GET'])
 def get_all_courses():
     """
     get all courses
     """
-    all_courses = storage.all('Course')
-    course_list = []
-    for value in all_courses.values():
-        course_list.append(value.to_dict())
-    return jsonify(course_list), 200
+    return jsonify(all_courses()), 200

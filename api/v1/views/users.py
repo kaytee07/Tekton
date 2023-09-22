@@ -27,6 +27,13 @@ def hash_password(password, salt=None):
         hashed_password = binascii.hexlify(hk).decode('utf-8')
         return hashed_password
 
+def all_users():
+    all_users = storage.all('User')
+    cohort_list = []
+    for value in all_users.values():
+        cohort_list.append(value.to_dict())
+    return cohort_list
+
 
 @app_views.route('/createuser', strict_slashes=False, methods=['GET', 'POST'])
 def createuser():
@@ -85,6 +92,45 @@ def login():
             return render_template('login.html')
     else:
         return render_template('login.html')
+
+@app_views.route('/updateuser/<id>', strict_slashes=False, methods=['POST'])
+def updateuser(id):
+    """
+    update user
+    """
+    get_user = storage.get(User, id=id)
+    if get_user:
+        data = request.get_json()
+        if 'first_name' in data:
+            get_user.first_name = data['first_name']
+        if 'last_name' in data:
+            get_user.last_name = data['last_name']
+        if 'username' in data:
+            get_user.username = data['username']
+        if 'user_type' in data:
+            get_user.user_type = data['user_type']
+        if 'email' in data:
+            get_user.email = data['email']
+
+        get_user.save()
+        return jsonify(get_user.to_dict())
+    else:
+        abort(404)
+
+
+@app_views.route('/deleteuser/<id>', strict_slashes=False, methods=['POST'])
+def deleteuser(id):
+    """
+    delete user
+    """
+    get_user = storage.get(User, id=id)
+    if get_user:
+        get_user.delete()
+        storage.save()
+        flash("deleted successfully")
+        return jsonify(all_users()), 200
+    else:
+        abort(404)
 
 
 @app_views.route('/home', strict_slashes=False, methods=['GET'])
