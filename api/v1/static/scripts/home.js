@@ -33,6 +33,9 @@ fetch(url, requestOptions)
   })
   .then((responseData) => {
       console.log("Response data:", responseData);
+      let newData = JSON.stringify(responseData)
+      localStorage.setItem('data', newData)
+      let retrievedValue = localStorage.getItem('data');
       let html = ""
       for (let value of responseData) {
 	  console.log(value['age'], value['first_name'])
@@ -48,8 +51,11 @@ fetch(url, requestOptions)
            `
       }
       get_std_html.innerHTML = html
+      console.log(retrievedValue)
   })
   .catch((error) => {
     console.error("Fetch error:", error);
   });
 }
+
+getstudent()

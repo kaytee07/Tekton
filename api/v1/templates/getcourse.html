@@ -28,7 +28,7 @@
             </div>
             <div class="std_headers">
 	      {% for items in courses %}
-                <div class="student_details">
+                <div class="student_details" id="{{ items['id'] }}">
                     <h4 class="name">{{ items['name'] }}</h4>
 
                     <div class="graduated">
@@ -47,7 +47,7 @@
 		{% endfor %}
             </div>
     </section>
-    <script src="static/home.js" async></script>
+    <script src="{{ url_for('static', filename='scripts/getcourses.js') }}" async></script>
 </body>
 
 </html>
