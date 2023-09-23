@@ -1,10 +1,13 @@
-const trash = document.querySelector('svg.trash');
+const trash = document.querySelectorAll('svg.trash');
 const edit = document.querySelector('svg.edit');
 const user = document.querySelector('div.student_details');
 
-trash.addEventListener('click', () => {
-    deleteuser(user.id)
-})
+for (let i = 0; i < trash.length; i++) {
+     trash[i].addEventListener("click", function() {
+	 console.log(this.parentElement.parentElement.id)
+	 deleteuser(this.parentElement.parentElement.id)
+     });
+ }
 
 
 function deleteuser(id) {
@@ -25,13 +28,11 @@ fetch(url, requestOptions)
     return response.json();
   })
   .then((responseData) => {
-      console.log('works')
+      location.reload()
   })
   .catch((error) => {
     console.error("Fetch error:", error);
   });
 }
 
-function edituser() {
 
-}
