@@ -11,7 +11,6 @@ function getstudent (){
 get_cohort_no = document.querySelector('#cohort').value;
 get_course_name = document.querySelector('#course').value;
 get_std_html = document.querySelector('.std_headers');
- console.log(get_std_html)
     
 cohort_no = Number(get_cohort_no.split(" ")[1])
 const url = `http://localhost:5001/api/v1/students/${cohort_no}/${get_course_name}`;
@@ -37,7 +36,6 @@ fetch(url, requestOptions)
       let retrievedValue = localStorage.getItem('data');
       let html = ""
       for (let value of responseData) {
-	  console.log(value['age'], value['first_name'])
 	  html += `
                 <div class="student_details">
                 <h4 class="name">${value.first_name} ${value.last_name}</h4>
@@ -93,7 +91,7 @@ fetch(url, requestOptions)
        getCourses()
    })
    .then((data)=> {
-       getstudent()
+  
    })
   .catch((error) => {
     console.error("Fetch error:", error);
