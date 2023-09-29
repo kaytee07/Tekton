@@ -6,13 +6,28 @@ from os import getenv
 from models import storage
 from api.v1.views import app_views
 from flask import Flask
-
-app = Flask(__name__, static_url_path='/static', static_folder='static')
-app.register_blueprint(app_views, url_prefix='/api/v1')
+from flask_mail import Mail
+import paystack
 
 session_key = getenv('TK_SESSION_KEY')
+paystack_key = getenv('TK_PAYSTACK_KEY')
+email_address = getenv('TK_EMAIL_ADDRESS')
+email_password = getenv('TK_EMAIL_PASSW')
+
+app = Flask(__name__, static_url_path='/static', static_folder='static')
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = email_address
+app.config['MAIL_PASSWORD'] = email_password
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+mail = Mail(app)
+
+app.register_blueprint(app_views, url_prefix='/api/v1')
 
 app.secret_key = session_key
+#paystack_api = paystack.Paystack(secret_key=paystack_key)
+
 
 @app.teardown_appcontext
 def close_storage(error):
